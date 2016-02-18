@@ -12,7 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @author Hulk
  *
  */
-public class ReadExecuter implements InitializingBean {
+public class DetachedReadExecutor implements InitializingBean,ReadExecutor {
 	
 	@Autowired(required=false)
 	private SchedulingTaskExecutor taskExecutor;
@@ -22,6 +22,11 @@ public class ReadExecuter implements InitializingBean {
 		if (this.taskExecutor == null){
 			this.taskExecutor = new ThreadPoolTaskExecutor();
 		}
+	}
+
+
+	public void readLogFile(AbstractLogFileContext context) {
+		
 	}
 
 }
