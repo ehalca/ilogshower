@@ -5,6 +5,14 @@ package ehalca.ilogshower;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.core.MessageSendingOperations;
+import org.springframework.messaging.simp.broker.BrokerAvailabilityEvent;
+import org.springframework.scheduling.SchedulingTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
 import ehalca.ilogshower.logfile.LogFile;
 import ehalca.ilogshower.logfile.RequestSearchLogFileCriteria;
 import ehalca.ilogshower.service.FileLogService;
@@ -15,14 +23,41 @@ import ehalca.ilogshower.utils.LogFileUtilities;
  * @author Hulk
  *
  */
-public abstract class LogContentController {
+public abstract class LogContentController implements InitializingBean, ApplicationListener<BrokerAvailabilityEvent> {
 	
+	@Autowired
+	private MessageSendingOperations<String> messagingTemplate;
+	
+	private SchedulingTaskExecutor taskExecutor;
+	
+	public void onConnect(String fileName, String sessionId){
+		System.out.println("execute :"+fileName+" :" + sessionId);
+		this.taskExecutor.execute(new DetachedReadExecutor(new AbstractLogFileContext(sessionId, fileName), this.messagingTemplate));
+	}
 	
 	public InitLogFileResponse initLogFile(Map<String, String> params){
 		RequestSearchLogFileCriteria criteria = new RequestSearchLogFileCriteria(params);
 		LogFile file = getFileLogService().getLogFile(criteria);
-		return new InitLogFileResponse(file.getFile().exists(), LogFileUtilities.getNumberOfLines(file));
+		String id = LogFileUtilities.getUserIdentifier();
+		return new InitLogFileResponse(file.getFile().exists(), LogFileUtilities.getNumberOfLines(file), id);
 	}
 	
 	public abstract FileLogService getFileLogService();
+	public abstract SchedulingTaskExecutor getReadExecutor();
+
+	public void afterPropertiesSet() throws Exception {
+		if (taskExecutor == null){
+			this.taskExecutor = new ThreadPoolTaskExecutor();
+			((ThreadPoolTaskExecutor)this.taskExecutor).setCorePoolSize(5);
+			((ThreadPoolTaskExecutor)this.taskExecutor).setMaxPoolSize(10);
+			((ThreadPoolTaskExecutor)this.taskExecutor).setQueueCapacity(10);
+			((ThreadPoolTaskExecutor)this.taskExecutor).initialize();
+		}
+	}
+
+	public void onApplicationEvent(BrokerAvailabilityEvent event) {
+		System.out.println("Event:" + event.toString());
+	}
+	
+	
 }

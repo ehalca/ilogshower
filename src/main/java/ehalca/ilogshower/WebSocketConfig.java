@@ -3,23 +3,60 @@
  */
 package ehalca.ilogshower;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.socket.config.annotation.EnableWebSocket;
-import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
-import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
-import org.springframework.web.socket.server.jetty.JettyRequestUpgradeStrategy;
-import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
+import java.util.List;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.converter.MessageConverter;
+import org.springframework.messaging.simp.config.ChannelRegistration;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 /**
  * @author ehalc
  *
  */
-@EnableWebSocket
-public class WebSocketConfig implements WebSocketConfigurer {
+@Configuration
+@EnableWebSocketMessageBroker
+@EnableScheduling
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        
-    }
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint("/random").withSockJS();
+	}
+
+	public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+	}
+
+	public void configureClientInboundChannel(ChannelRegistration registration) {
+	}
+
+	public void configureClientOutboundChannel(ChannelRegistration registration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addArgumentResolvers(
+			List<org.springframework.messaging.handler.invocation.HandlerMethodArgumentResolver> argumentResolvers) {
+	}
+
+	public void addReturnValueHandlers(
+			List<org.springframework.messaging.handler.invocation.HandlerMethodReturnValueHandler> returnValueHandlers) {
+	}
+
+	public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
+		return true;
+	}
+
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		registry.setApplicationDestinationPrefixes("/read");
+	}
+
 
 
 }

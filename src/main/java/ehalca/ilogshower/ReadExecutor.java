@@ -9,6 +9,6 @@ package ehalca.ilogshower;
  */
 public interface ReadExecutor {
 	
-	public void readLogFile(AbstractLogFileContext context);
+	public void readLogFile();
 	
 }

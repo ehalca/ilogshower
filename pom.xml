@@ -24,28 +24,40 @@
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-core</artifactId>
-    	<version>4.0.3.RELEASE</version>
+    	<version>4.2.4.RELEASE</version>
     </dependency>
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-beans</artifactId>
-    	<version>4.0.3.RELEASE</version>
+    	<version>4.2.4.RELEASE</version>
     </dependency>
     <dependency>
 	<groupId>org.springframework</groupId>
 	<artifactId>spring-websocket</artifactId>
-	<version>4.0.3.RELEASE</version>
+	<version>4.2.4.RELEASE</version>
 </dependency>
     
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-context</artifactId>
-    	<version>4.0.3.RELEASE</version>
+    	<version>4.2.4.RELEASE</version>
     </dependency>
     <dependency>
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-aop</artifactId>
-    	<version>4.0.3.RELEASE</version>
+    	<version>4.2.4.RELEASE</version>
     </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-messaging</artifactId>
+    	<version>4.2.4.RELEASE</version>
+    </dependency>
+   <dependency>
+	<groupId>org.springframework.security</groupId>
+	<artifactId>spring-security-core</artifactId>
+	<version>4.0.3.RELEASE</version>
+</dependency>
+
+
   </dependencies>
 </project>

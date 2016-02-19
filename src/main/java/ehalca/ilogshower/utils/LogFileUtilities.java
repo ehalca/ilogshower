@@ -7,6 +7,11 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.UUID;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import ehalca.ilogshower.logfile.LogFile;
 
@@ -37,6 +42,15 @@ public class LogFileUtilities {
 		} catch (IOException e) {
 		}
 		return lines;
+	}
+	
+	public static String getUserIdentifier(){
+		try{
+		  User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	      return user.getUsername(); //get logged in username
+		}catch(Exception exc){
+			return RequestContextHolder.currentRequestAttributes().getSessionId();
+		}
 	}
 	
 	
