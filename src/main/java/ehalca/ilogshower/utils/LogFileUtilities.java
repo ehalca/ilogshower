@@ -36,6 +36,7 @@ public class LogFileUtilities {
 			}
 		}else{
 			while (reader.readLine() != null) lines++;
+                        lines++;
 		}
 		reader.close();
 		} catch (FileNotFoundException e) {

@@ -14,7 +14,9 @@ import org.springframework.scheduling.SchedulingTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import ehalca.ilogshower.logfile.LogFile;
+import ehalca.ilogshower.logfile.MessageLogFileCriteria;
 import ehalca.ilogshower.logfile.RequestSearchLogFileCriteria;
+import ehalca.ilogshower.logfile.SearchLogFileCriteria;
 import ehalca.ilogshower.service.FileLogService;
 import ehalca.ilogshower.transport.InitLogFileResponse;
 import ehalca.ilogshower.utils.LogFileUtilities;
@@ -25,17 +27,17 @@ import ehalca.ilogshower.utils.LogFileUtilities;
  */
 public abstract class LogContentController implements InitializingBean, ApplicationListener<BrokerAvailabilityEvent> {
 	
+	
 	@Autowired
 	private MessageSendingOperations<String> messagingTemplate;
 	
 	private SchedulingTaskExecutor taskExecutor;
 	
-	public void onConnect(String fileName, String sessionId){
-		System.out.println("execute :"+fileName+" :" + sessionId);
-		this.taskExecutor.execute(new DetachedReadExecutor(new AbstractLogFileContext(sessionId, fileName), this.messagingTemplate));
+	public void onConnect(MessageLogFileCriteria criteria){
+		this.taskExecutor.execute(new DetachedReadExecutor(criteria.toLogFileContext(), this.messagingTemplate, getFileLogService().getLogFile(criteria)));
 	}
 	
-	public InitLogFileResponse initLogFile(Map<String, String> params){
+	public InitLogFileResponse initLogFile(Map<String, Object> params){
 		RequestSearchLogFileCriteria criteria = new RequestSearchLogFileCriteria(params);
 		LogFile file = getFileLogService().getLogFile(criteria);
 		String id = LogFileUtilities.getUserIdentifier();
