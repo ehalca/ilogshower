@@ -29,14 +29,14 @@ public class LogFileUtilities {
 		if (file.getFilter() != null){
 			String line = reader.readLine();
 			while (line != null){
-				if (file.getFilter().filerLine(line)){
+				if (file.getFilter().filterLine(line)){
 					lines++;
 				}
 				line = reader.readLine();
 			}
 		}else{
 			while (reader.readLine() != null) lines++;
-                        lines++;
+                       // lines++;
 		}
 		reader.close();
 		} catch (FileNotFoundException e) {

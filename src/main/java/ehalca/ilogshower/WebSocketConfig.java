@@ -4,6 +4,7 @@
 package ehalca.ilogshower;
 
 import java.util.List;
+import org.springframework.context.annotation.Bean;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.converter.MessageConverter;
@@ -27,18 +28,19 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint("/random").withSockJS();
+		registry.addEndpoint("/random").withSockJS().setStreamBytesLimit(2048 * 1024)
+            .setHttpMessageCacheSize(10000)
+            .setDisconnectDelay(30 * 1000);
 	}
 
 	public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
 	}
-
+        
+        
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 	}
 
 	public void configureClientOutboundChannel(ChannelRegistration registration) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void addArgumentResolvers(

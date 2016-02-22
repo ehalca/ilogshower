@@ -16,4 +16,5 @@ ehalca\ilogshower\WebSocketConfig.class
 ehalca\ilogshower\AbstractLogFileContext.class
 ehalca\ilogshower\LogContentController.class
 ehalca\ilogshower\reader\ReadDirection.class
+ehalca\ilogshower\ReadingTaskExecutor.class
 ehalca\ilogshower\service\FileLogService.class

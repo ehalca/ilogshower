@@ -15,7 +15,7 @@ public class AbstractLogFileContext {
 	private String fileName;
 	private ReadDirection direction = ReadDirection.DOWN;
 	private int priorityPos = 25;
-	private int count = 6;
+	private int count = 5;
 	private int maxRead = -1;
 	
 	public AbstractLogFileContext(String sesssionId, String fileName) {
@@ -23,6 +23,17 @@ public class AbstractLogFileContext {
 		this.sesssionId = sesssionId;
 		this.fileName = fileName;
 	}
+        
+        public void update(AbstractLogFileContext context){
+            if (context.getCount() != this.getCount()){
+                this.setCount(context.getCount());
+            }
+            
+            if (context.getPriorityPos() != this.getPriorityPos()){
+                this.setPriorityPos(context.getPriorityPos());
+            }
+        }
+        
 	public String getSesssionId() {
 		return sesssionId;
 	}

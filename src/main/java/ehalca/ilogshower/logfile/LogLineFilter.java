@@ -9,6 +9,6 @@ package ehalca.ilogshower.logfile;
  */
 public interface LogLineFilter {
 
-	public boolean filerLine(String line);
+	public boolean filterLine(String line);
 	
 }
